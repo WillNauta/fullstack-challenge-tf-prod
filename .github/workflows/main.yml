@@ -1,0 +1,32 @@
+name: Continuous Deployment
+
+on:
+  push:
+    branches:
+      - Master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: AKIAVAUZHEXLAFZ2PGEZ
+          aws-secret-access-key: S4M7k9bDXa62SeE6ChJ8Rqzrb2mIU+Oa5EQsfxM2
+          aws-region: us-east-1  # Replace with your desired region
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 1.0.0  # Replace with your desired Terraform version
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve
